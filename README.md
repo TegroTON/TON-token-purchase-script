@@ -1,97 +1,78 @@
-<br/>
-<p align="center">
-  <h3 align="center">Покупка TGR в Telegram боте</h3>
+# TGR Purchase Script for Telegram Bots
 
-  <p align="center">
-    PHP-cкрипт интеграции tegro.money для покупки токенов TGR в Телеграм ботах
-    <br/>
-    <br/>
-    <a href="https://github.com/Lana4cool/TGR-purchase-script">View Demo</a>
-    .
-    <a href="https://github.com/Lana4cool/TGR-purchase-script/issues">Report Bug</a>
-    .
-    <a href="https://github.com/Lana4cool/TGR-purchase-script/issues">Request Feature</a>
-  </p>
-</p>
+This PHP script enables the integration of tegro.money's payment gateway for purchasing TGR tokens in Telegram bots. It's designed for easy implementation into any PHP-based Telegram bot management script.
 
+## Table of Contents
 
+- [About the Project](#about-the-project)
+- [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+- [License](#license)
+- [Authors](#authors)
 
-## Table Of Contents
+## About the Project
 
-* [About the Project](#about-the-project)
-* [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Installation](#installation)
-* [License](#license)
-* [Authors](#authors)
-
-
-## About The Project
-
-Данный PHP-cкрипт предназначен для интеграции функции покупки токенов TGR за фиат или криптовалюту через платежный гейт сервиса tegro.money. Это решение может быть легко внедрено в любой php скрипт управления Телеграм ботом.
+The TGR purchase script is a PHP-based solution that facilitates the buying of TGR tokens using fiat or cryptocurrency through the tegro.money payment gateway. This script is designed to be seamlessly integrated into any PHP script managing Telegram bots.
 
 ## Built With
 
-PHP 7.0+
+- PHP 7.0 or higher
 
 ## Getting Started
 
-Скачайте файлы из репозитория и откройте их в редакторе кода.
+Download the files from the repository and open them in your code editor.
 
 ### Installation
 
-1. Заполните данные в начале файла tobot.php:
-```php
-########################
-$tegromoney_shopid = "XXXXXXXXXXXXXXX"; // ID магазина на tegro.money
-$tegromoney_secretkey = "XXXXXXXX"; // секретный ключ магазина на tegro.money
-$minlimit = 150000; // минимальный лимит покупки TGR
-$maxlimit = 850000; // максимальный лимит покупки TGR
-########################
-```
+1. Fill in the details at the beginning of the `tobot.php` file:
+    ```php
+    ########################
+    $tegromoney_shopid = "YourShopID"; // Shop ID on tegro.money
+    $tegromoney_secretkey = "YourSecretKey"; // Secret key of the shop on tegro.money
+    $minlimit = 150000; // Minimum TGR purchase limit
+    $maxlimit = 850000; // Maximum TGR purchase limit
+    ########################
+    ```
 
-2. Впишите API TOKEN вашего бота в начале файла postback.php:
-```php
-###################
-define('TOKEN', 'XXXXXXXXXXXXXXXXXXXXXXXXXXX');
-###################
-```
-3. Заполните данные подключения к базе MySQL в файле global.php:
-```php
-$hostName = "";
-$userName = "";
-$password = "";
-$databaseName = "";
-```
+2. Enter the API TOKEN of your bot at the beginning of the `postback.php` file:
+    ```php
+    ###################
+    define('TOKEN', 'YourBotApiToken');
+    ###################
+    ```
 
-4. Заполните поле "УРЛ уведомлений" в настройках магазина на tegro.money ссылкой на файл postback.php
-Например: https://yourdomain/bot/postback.php
+3. Fill in the MySQL database connection details in the `global.php` file:
+    ```php
+    $hostName = "YourHostName";
+    $userName = "YourUserName";
+    $password = "YourPassword";
+    $databaseName = "YourDatabaseName";
+    ```
 
-5. При необходимости создайте нужные таблицы в базе MySQL:
-```php
-paylinks
-users
-```
+4. In the shop settings on tegro.money, set the "Notification URL" to point to your `postback.php` file. For example: `https://yourdomain/bot/postback.php`
 
-6. При необходимости заполните тело функций:
-```php
-function getTGRrate()
-function saveTransaction($sum, $asset, $network, $type, $address)
-```
+5. If necessary, create the required tables in your MySQL database:
+    ```sql
+    CREATE TABLE paylinks (...);
+    CREATE TABLE users (...);
+    ```
 
-7. Включите файл tobot.php в основной код вашего скрипта управления ботом черезе include.
+6. Optionally, fill in the body of functions:
+    ```php
+    function getTGRrate() { ... }
+    function saveTransaction($sum, $asset, $network, $type, $address) { ... }
+    ```
 
-8. Вызовите в нужном месте вашего кода функцию 
-```php
-buyTGRProcessSum($data);
-```
-При корректной настройке всех пунктов выше, она выведет пользователю сообщени с кнопкой для оплаты покупки TGR.
+7. Include the `tobot.php` file in the main code of your bot management script using `include`.
 
+8. In the appropriate part of your code, call the function `buyTGRProcessSum($data);`. When properly set up, this function will display a message to the user with a button to purchase TGR.
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/Lana4cool/TGR-purchase-script/blob/main/LICENSE.md) for more information.
+This project is distributed under the MIT License. See [LICENSE](https://github.com/Lana4cool/TGR-purchase-script/blob/main/LICENSE.md) for more information.
 
 ## Authors
 
-* **Lana Cool** - *Developer* - [Lana Cool](https://github.com/Lana4cool) - **
+- **Lana Cool** - *Developer* - [Lana Cool](https://github.com/Lana4cool) 
+
