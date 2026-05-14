@@ -184,10 +184,13 @@ final class HandlerTest extends TestCase
 
     private function handler(string $rate): Handler
     {
-        $telegram = new TelegramClient('test-bot-token', function () {
-            $this->telegramCalls++;
-            return ['status' => 200, 'body' => '{"ok":true}'];
-        });
+        $telegram = new TelegramClient(
+            'test-bot-token',
+            \Closure::fromCallable(function (): array {
+                $this->telegramCalls++;
+                return ['status' => 200, 'body' => '{"ok":true}'];
+            }),
+        );
         $rates = new class ($rate) implements TokenRateProvider {
             public function __construct(private readonly string $rate)
             {

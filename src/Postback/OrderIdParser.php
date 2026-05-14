@@ -31,10 +31,10 @@ final class OrderIdParser
                 'order_id parts must be non-empty',
             );
         }
-        if (!preg_match('/^-?[A-Za-z0-9_-]{1,64}$/', $chatId)) {
+        if (preg_match('/^-?[A-Za-z0-9_-]{1,64}$/', $chatId) !== 1) {
             throw new \InvalidArgumentException('order_id chatId has bad chars');
         }
-        if (!preg_match('/^[A-Za-z0-9_-]{1,64}$/', $rowId)) {
+        if (preg_match('/^[A-Za-z0-9_-]{1,64}$/', $rowId) !== 1) {
             throw new \InvalidArgumentException('order_id rowId has bad chars');
         }
         return [$chatId, $rowId];

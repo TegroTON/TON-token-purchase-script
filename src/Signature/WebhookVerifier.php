@@ -64,7 +64,8 @@ final readonly class WebhookVerifier
         $shopId        = $this->requireString($rawFields, 'shop_id');
         $orderId       = $this->requireString($rawFields, 'order_id');
         $amountStr     = $this->requireString($rawFields, 'amount');
-        $currency      = $this->stringOrEmpty($rawFields, 'currency') ?: 'RUB';
+        $currencyRaw   = $this->stringOrEmpty($rawFields, 'currency');
+        $currency      = $currencyRaw === '' ? 'RUB' : $currencyRaw;
         $paymentSystem = $this->stringOrEmpty($rawFields, 'payment_system');
         $paymentId     = $this->stringOrEmpty($rawFields, 'payment_id');
         $statusRaw     = $rawFields['status'] ?? null;

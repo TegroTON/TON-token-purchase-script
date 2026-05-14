@@ -6,22 +6,22 @@ namespace Tegro\Purchase\Telegram;
 
 /**
  * Minimal Telegram Bot API client — only sendMessage. Network access goes
- * through a callable so tests can inject a transport without monkey-patching
+ * through a closure so tests can inject a transport without monkey-patching
  * curl. The default transport posts JSON to the official endpoint.
  *
- * @phpstan-type Transport callable(string $url, array<string, mixed> $payload): array{status:int, body:string}
+ * @phpstan-type Transport \Closure(string $url, array<string, mixed> $payload): array{status:int, body:string}
  */
 final readonly class TelegramClient
 {
     /** @var Transport */
-    private $transport;
+    private \Closure $transport;
 
     /**
      * @param Transport|null $transport
      */
     public function __construct(
         private string $botToken,
-        ?callable $transport = null,
+        ?\Closure $transport = null,
     ) {
         if ($botToken === '') {
             throw new \InvalidArgumentException('botToken must not be empty');
