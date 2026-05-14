@@ -1,7 +1,7 @@
 # TON-token-purchase-script
 
 [![CI](https://img.shields.io/github/actions/workflow/status/TegroTON/TON-token-purchase-script/ci.yml?branch=main&label=CI&logo=github)](https://github.com/TegroTON/TON-token-purchase-script/actions/workflows/ci.yml)
-[![PHP](https://img.shields.io/badge/php-%5E8.1-777bb4?logo=php&logoColor=white)](https://www.php.net)
+[![PHP](https://img.shields.io/badge/php-%5E8.2-777bb4?logo=php&logoColor=white)](https://www.php.net)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-fa6673)](https://www.conventionalcommits.org)
 [![PHPStan level 8](https://img.shields.io/badge/PHPStan-level%208-2c3e50)](https://phpstan.org)
@@ -51,7 +51,7 @@ mysql -u $DB_USER -p $DB_NAME < migrations/001_initial.sql
 
 Requirements:
 
-- PHP **8.1+** with `ext-curl`, `ext-pdo`, `ext-pdo_mysql`, `ext-bcmath`, `ext-json`
+- PHP **8.2+** with `ext-curl`, `ext-pdo`, `ext-pdo_mysql`, `ext-bcmath`, `ext-json`
 - MySQL 8 or MariaDB 10.4+
 - A Tegro.Money shop with `Shop ID`, `API key`, and `Secret key` from cabinet → Shop → Settings
 - A Telegram bot token from [@BotFather](https://t.me/BotFather)

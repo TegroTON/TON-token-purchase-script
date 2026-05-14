@@ -15,7 +15,7 @@ If `composer check` passes on a fresh clone, your dev environment works.
 
 ## Prerequisites
 
-- PHP **8.1, 8.2, or 8.3** — the CI matrix runs all three.
+- PHP **8.2, 8.3, or 8.4** — the CI matrix runs all three.
 - Required extensions: `ext-curl`, `ext-pdo`, `ext-pdo_mysql`, `ext-bcmath`, `ext-json`.
 - Composer 2.x.
 
@@ -90,7 +90,7 @@ Scope is optional and useful: `feat(handler): support refund webhooks`.
 - We use [PHPUnit 10](https://phpunit.de).
 - New public methods need: happy path, malformed input, tampered input where applicable.
 - Database tests use **in-memory SQLite** — fast, no external dependency. Production uses MySQL/MariaDB; the abstractions ensure both work.
-- `composer test` must stay green on PHP 8.1, 8.2, 8.3.
+- `composer test` must stay green on PHP 8.2, 8.3, 8.4.
 
 ## Reporting security issues
 
