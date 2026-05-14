@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Tegro\Purchase\Enum\PaymentStatus;
 use Tegro\Purchase\Exception\WebhookSignatureException;
-use Tegro\Purchase\Signature\VerifiedNotification;
 use Tegro\Purchase\Signature\WebhookVerifier;
 
 #[CoversClass(WebhookVerifier::class)]
@@ -30,7 +29,6 @@ final class WebhookVerifierTest extends TestCase
 
         $verified = (new WebhookVerifier(self::SECRET))->verify($fields);
 
-        $this->assertInstanceOf(VerifiedNotification::class, $verified);
         $this->assertSame('shop_abc', $verified->shopId);
         $this->assertSame('12345:abc', $verified->orderId);
         $this->assertSame(100.50, $verified->amount);

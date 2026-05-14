@@ -56,6 +56,8 @@ final class HandlerTest extends TestCase
 
     public function testCreditsBalanceOnFirstPaidWebhook(): void
     {
+        // markup=110%, rate=1, fiat=110 → tokens credited = 110/1 * 100/110 = 100.
+        // Pre-existing balance 5 + 100 credit = 105.
         $this->seed('chat42', 'order7', userBalance: '5');
         $fields = $this->signedPayload([
             'shop_id' => 'shop1',
@@ -69,17 +71,18 @@ final class HandlerTest extends TestCase
 
         $this->assertSame(200, $response->statusCode);
         $this->assertSame('ok', $response->body);
-        $this->assertSame('105.000000000', $this->fetchBalance('chat42'));
+        $this->assertBalanceEquals('105', 'chat42');
         $this->assertSame(1, $this->fetchStatus('chat42', 'order7'));
         $this->assertSame(1, $this->telegramCalls);
     }
 
     public function testDuplicateWebhookCreditsOnce(): void
     {
+        // markup=110%, rate=1, fiat=110 → 100 tokens credited exactly once.
         $this->seed('chat42', 'order7', userBalance: '0');
         $fields = $this->signedPayload([
             'shop_id' => 'shop1',
-            'amount' => '100',
+            'amount' => '110',
             'order_id' => 'chat42:order7',
             'status' => '1',
         ]);
@@ -90,7 +93,7 @@ final class HandlerTest extends TestCase
 
         $this->assertSame(200, $first->statusCode);
         $this->assertSame(200, $second->statusCode);
-        $this->assertSame('100.000000000', $this->fetchBalance('chat42'));
+        $this->assertBalanceEquals('100', 'chat42');
         $this->assertSame(1, $this->telegramCalls, 'telegram must be hit at most once per order');
     }
 
@@ -108,7 +111,7 @@ final class HandlerTest extends TestCase
         $response = $this->handler('1.0')->handle($fields);
 
         $this->assertSame(403, $response->statusCode);
-        $this->assertSame('0', $this->fetchBalance('chat42'));
+        $this->assertBalanceEquals('0', 'chat42');
         $this->assertSame(0, $this->fetchStatus('chat42', 'order7'));
     }
 
@@ -125,7 +128,7 @@ final class HandlerTest extends TestCase
         $response = $this->handler('1.0')->handle($fields);
 
         $this->assertSame(200, $response->statusCode);
-        $this->assertSame('0', $this->fetchBalance('chat42'));
+        $this->assertBalanceEquals('0', 'chat42');
         $this->assertSame(0, $this->fetchStatus('chat42', 'order7'));
     }
 
@@ -143,7 +146,7 @@ final class HandlerTest extends TestCase
         $response = $this->handler('1.0')->handle($fields);
 
         $this->assertSame(200, $response->statusCode);
-        $this->assertSame('0', $this->fetchBalance('chat42'));
+        $this->assertBalanceEquals('0', 'chat42');
         $this->assertSame(0, $this->fetchStatus('chat42', 'order7'));
     }
 
@@ -250,9 +253,25 @@ final class HandlerTest extends TestCase
     {
         $stmt = $this->pdo->prepare('SELECT balance FROM users WHERE chatid = :c');
         $stmt->execute([':c' => $chatId]);
-        /** @var string|false $row */
+        /** @var string|float|int|false $row */
         $row = $stmt->fetchColumn();
         return $row === false ? '' : (string) $row;
+    }
+
+    /**
+     * Balance values come back from SQLite without the DECIMAL(30,9) trailing
+     * zeros that MySQL would preserve — comparing as strings would couple the
+     * tests to the storage backend. Compare numerically with bccomp so that
+     * '5' and '5.000000000' read as equal.
+     */
+    private function assertBalanceEquals(string $expected, string $chatId): void
+    {
+        $actual = $this->fetchBalance($chatId);
+        $this->assertSame(
+            0,
+            bccomp($expected, $actual === '' ? '0' : $actual, 9),
+            "balance for {$chatId}: expected {$expected}, got {$actual}",
+        );
     }
 
     private function fetchStatus(string $chatId, string $rowId): int
