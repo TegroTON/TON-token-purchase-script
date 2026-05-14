@@ -1,0 +1,64 @@
+name: Bug report
+description: Something is broken or behaves differently from the docs.
+title: "[bug] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug.
+
+        **Security issues do not go here.** Use [private vulnerability reporting](https://github.com/TegroTON/TON-token-purchase-script/security/advisories/new) instead — see SECURITY.md.
+
+  - type: input
+    id: php
+    attributes:
+      label: PHP version
+      description: Output of `php --version`.
+      placeholder: "PHP 8.2.15"
+    validations:
+      required: true
+
+  - type: input
+    id: db
+    attributes:
+      label: Database engine + version
+      placeholder: "MySQL 8.0.36 / MariaDB 10.11"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Expected vs observed behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: |
+        A short snippet, curl payload, or test case that reproduces the issue.
+        Strip secrets before submitting.
+      render: php
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: PHPUnit failure output, stack trace, or webhook log lines. Redact secrets.
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and didn't find a duplicate.
+          required: true
+        - label: This is not a security issue (if it is, I will use private vulnerability reporting).
+          required: true
