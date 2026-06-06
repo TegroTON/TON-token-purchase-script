@@ -144,3 +144,14 @@ MIT — see [LICENSE](LICENSE). Take it, ship your bot, send a star if it helped
 ## Changelog
 
 Versioned semver-style. See [Releases](https://github.com/TegroTON/TON-token-purchase-script/releases) for tagged versions.
+
+
+## 🌐 Tegro Ecosystem
+
+Part of the open-source **Tegro** DeFi & Web3 ecosystem on TON:
+
+- 💳 **Payments (Tegro Money)** — https://tegro.money · [API docs](https://tegro.money/docs/en/api/)
+- 🔁 **DEX (Tegro Finance)** — https://tegro.finance
+- 👛 **Wallet** — https://t.me/TegroMoneyBot
+- 💬 **Community** — https://t.me/TegroMoney
+- 🏠 **All open-source repos** — https://github.com/TegroTON
